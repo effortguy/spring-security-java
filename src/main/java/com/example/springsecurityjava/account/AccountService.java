@@ -1,11 +1,12 @@
 package com.example.springsecurityjava.account;
 
+import com.example.springsecurityjava.form.SampleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -30,8 +32,8 @@ public class AccountService implements UserDetailsService {
                 .build();
     }
 
-    public void createNew() {
-        accountRepository.save(new Account("keesun", "{noop}123", "USER"));
-        accountRepository.save(new Account("admin", "{noop}123", "ADMIN"));
+    public Account createNew(Account account) {
+        account.encodePassword(passwordEncoder);
+        return accountRepository.save(account);
     }
 }

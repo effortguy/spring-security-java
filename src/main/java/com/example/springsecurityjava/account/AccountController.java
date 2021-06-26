@@ -12,6 +12,10 @@ public class AccountController {
 
     @GetMapping("/account")
     public void createAccount() {
-        accountService.createNew();
+        Account user = new Account("keesun", "123", "USER");
+        Account admin = new Account("admin", "123", "ADMIN");
+
+        accountService.createNew(user);
+        accountService.createNew(admin);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.springsecurityjava.account;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -57,5 +59,9 @@ public class Account {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(password);
     }
 }
